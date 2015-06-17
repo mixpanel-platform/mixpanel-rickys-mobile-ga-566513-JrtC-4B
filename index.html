@@ -33,15 +33,19 @@
           var propQuery = MP.api.topProperties(value, propQueryParams);
           promises.push(propQuery);
             
-        }); 
+        });
+        
+        Promise.all(promises).then(function(promiseArray){
+          console.log(promiseArray)
+        
+        });
+        
+        
       })
       
       /* When all of the topEvents are done, let's make a properties query for each Event */
       
-      Promise.all(promises).then(function(promiseArray){
-        console.log(promiseArray)
-        
-      });
+      
       
       
       
