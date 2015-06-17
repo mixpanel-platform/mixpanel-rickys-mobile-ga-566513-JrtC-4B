@@ -24,6 +24,7 @@
       eventsQuery.done(function(results){
 
         _.each(_.values(results.values()), function(value){
+          console.log(value)
           var propQueryParams = {
             limit: 100    // maximum number of results to return
           };
