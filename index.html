@@ -62,7 +62,7 @@
         }).then(function(){
           console.log(properties);
           _.each(_.values(tableData), function(dataObject){
-            var keys = properties.keys()
+            var keys = _.keys(properties)
             for (i = 0; i < keys.length; i++){
               if (key in dataObject){
                 // do nothing
