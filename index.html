@@ -20,6 +20,7 @@
       
       
       var promises = [];
+      var events = [];
       
       eventsQuery.done(function(results){
 
@@ -32,32 +33,36 @@
           /* Make topProperties query with each event */
           var propQuery = MP.api.topProperties(value, propQueryParams);
           promises.push(propQuery);
+          events.push(value);
             
         });
         
+        /* When all of the topEvents are done, let's make a properties query for each Event */
+      
         Promise.all(promises).then(function(promiseArray){
           _.each(promiseArray, function(propsObject){
               console.log(propsObject.values())
               
-              /* Create a dictionary of data */
-          })
-        
+              /* find index of propsObject */
+              
+              var index = promiseArray.indexOf(propsObject);
+              
+              /* Add value to dictionary */
+              
+              tableData[events[index]] = promiseArray[index];
+          }).then(function(){
+            $('<div></div>').appendTo('body').MPTable(
+              {
+                data: tableData,
+                firstColHeader: 'Event'
+              }
+          );
+          });
         });
-        
-        
       })
       
-      /* When all of the topEvents are done, let's make a properties query for each Event */
       
-      
-    MP.api.segment('Tutorial Exited', '$city', {limit: 10}).done(function(results) {
-      console.log(results)
-        $('<div></div>').appendTo('body').MPTable({ // create table; try scrolling horizontally over demo below
-            data: results,
-            showPercentages: true,
-            firstColHeader: 'Button clicked / city'
-        });
-    });
+   
       
       
       
