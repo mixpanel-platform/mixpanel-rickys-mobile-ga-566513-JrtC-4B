@@ -22,14 +22,23 @@
       var promises = [];
       
       eventsQuery.done(function(results){
-        
-        console.log(results.values());
-        _.each(_.keys(results.values()), function(key){
+
+        _.each(_.values(results.values()), function(value){
           /* Make topProperties query with each event */
+          var propQuery = MP.api.propertyValues(value);
+          promises.push(propQuery);
             
-        }) 
+        }); 
       })
-      /* When topEvents is done, let's make a properties query for each Event */
+      
+      /* When all of the topEvents are done, let's make a properties query for each Event */
+      
+      Promise.all(promises).then(function(promiseArray){
+        console.log(promiseArray)
+        
+      });
+      
+      
       
     </script>
   </body>
