@@ -7,7 +7,7 @@
     <script src="https://cdn.mxpnl.com/libs/mixpanel-platform/build/mixpanel-platform.v0.latest.min.js"></script>
   </head>
   <body class="mixpanel-platform-body">
-    <h1>Hello, World!</h1>
+    
     <script>
       // Run queries and display results here
       var params = {
@@ -23,7 +23,7 @@
       
       eventsQuery.done(function(results){
         
-        console.log(results.values()))
+        console.log(results.values())
         _.each(_.keys(results.values()), function(key){
           /* Make Properties query with   
             
