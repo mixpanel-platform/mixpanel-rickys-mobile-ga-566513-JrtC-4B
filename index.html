@@ -21,6 +21,7 @@
       
       var promises = [];
       var events = [];
+      var properties = {};
       
       eventsQuery.done(function(results){
 
@@ -42,6 +43,13 @@
         Promise.all(promises).then(function(promiseArray){
           _.each(promiseArray, function(propsObject){
               console.log(propsObject.values())
+              _.each(propsObject.values(), function(propValue){
+                if (propValue in properties){
+                  console.log('in')
+                } else {
+                  properties[propValue] = ''
+                }
+              })
               
               /* find index of propsObject */
               
@@ -52,6 +60,19 @@
               tableData[events[index]] = promiseArray[index].values();
           })
         }).then(function(){
+          console.log(properties);
+          _.each(tableData.values(), function(dataObject){
+            var keys = dataObject.keys()
+            for (i = 0; i < keys.length; i++){
+              if (key in dataObject){
+                // do nothing
+              } else {
+                dataObject[key] = 0
+              }
+            }
+          })
+        }).then(function(){
+          console.log(tableData);
             $('<div class="Spec-Table"></div>').appendTo('body').MPTable(
               {
                 data: tableData,
@@ -60,10 +81,6 @@
             );
         });
       })
-      
-      
-   
-      
       
       
     </script>
