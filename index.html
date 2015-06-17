@@ -38,6 +38,8 @@
         Promise.all(promises).then(function(promiseArray){
           _.each(promiseArray, function(propsObject){
               console.log(propsObject.values())
+              
+              /* Create a dictionary of data */
           })
         
         });
@@ -48,6 +50,14 @@
       /* When all of the topEvents are done, let's make a properties query for each Event */
       
       
+    MP.api.segment('Tutorial Exited', '$city', {limit: 10}).done(function(results) {
+      console.log(results)
+        $('<div></div>').appendTo('body').MPTable({ // create table; try scrolling horizontally over demo below
+            data: results,
+            showPercentages: true,
+            firstColHeader: 'Button clicked / city'
+        });
+    });
       
       
       
