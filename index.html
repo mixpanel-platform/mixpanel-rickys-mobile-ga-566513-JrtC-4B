@@ -24,9 +24,12 @@
       eventsQuery.done(function(results){
 
         _.each(_.values(results.values()), function(value){
+          var propQueryParams = {
+            limit: 100    // maximum number of results to return
+          };
           
           /* Make topProperties query with each event */
-          var propQuery = MP.api.topProperties(value);
+          var propQuery = MP.api.topProperties(value, propQueryParams);
           promises.push(propQuery);
             
         }); 
