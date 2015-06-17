@@ -31,14 +31,14 @@
           
           /* Make topProperties query with each event */
           var propQuery = MP.api.topProperties(value, propQueryParams);
-          console.log(propQuery);
           promises.push(propQuery);
             
         });
         
         Promise.all(promises).then(function(promiseArray){
-          console.log(promises)
-          console.log(promiseArray)
+          _.each(promiseArray, function(propsObject){
+              console.log(propsObject.values())
+          })
         
         });
         
