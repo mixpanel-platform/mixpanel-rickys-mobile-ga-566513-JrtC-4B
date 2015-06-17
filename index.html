@@ -43,7 +43,7 @@
         Promise.all(promises).then(function(promiseArray){
           _.each(promiseArray, function(propsObject){
               console.log(propsObject.values())
-              _.each(propsObject.values(), function(propValue){
+              _.each(_.keys(propsObject.values()), function(propValue){
                 if (propValue in properties){
                   console.log('in')
                 } else {
