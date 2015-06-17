@@ -49,15 +49,15 @@
               
               /* Add value to dictionary */
               
-              tableData[events[index]] = promiseArray[index];
-          }).then(function(){
-            $('<div></div>').appendTo('body').MPTable(
+              tableData[events[index]] = promiseArray[index].values();
+          })
+        }).then(function(){
+            $('<div class="Spec-Table"></div>').appendTo('body').MPTable(
               {
                 data: tableData,
                 firstColHeader: 'Event'
               }
-          );
-          });
+            );
         });
       })
       
