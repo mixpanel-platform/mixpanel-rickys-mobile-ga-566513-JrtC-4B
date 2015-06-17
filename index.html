@@ -15,9 +15,12 @@
         limit: 50         // maximum number of results to return
       };
       
-      
+      var tableData = {};
       var eventsQuery = MP.api.topEvents(params)
       
+      var promises = [];
+      
+      _.each(keys, ev)
       /* When topEvents is done, let's make a properties query for each Event */
       
     </script>
