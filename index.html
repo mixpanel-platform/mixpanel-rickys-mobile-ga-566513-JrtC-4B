@@ -10,6 +10,16 @@
     <h1>Hello, World!</h1>
     <script>
       // Run queries and display results here
+      var params = {
+        type: 'general',  // analysis type for the data, can be 'general', 'unique', or 'average'
+        limit: 50         // maximum number of results to return
+      };
+      
+      
+      var eventsQuery = MP.api.topEvents(params)
+      
+      /* When topEvents is done, let's make a properties query for each Event */
+      
     </script>
   </body>
 </html>
