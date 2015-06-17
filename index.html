@@ -18,9 +18,17 @@
       var tableData = {};
       var eventsQuery = MP.api.topEvents(params)
       
+      
       var promises = [];
       
-      _.each(keys, ev)
+      eventsQuery.done(function(results){
+        
+        console.log(results.values()))
+        _.each(_.keys(results.values()), function(key){
+          /* Make Properties query with   
+            
+        }) 
+      })
       /* When topEvents is done, let's make a properties query for each Event */
       
     </script>
