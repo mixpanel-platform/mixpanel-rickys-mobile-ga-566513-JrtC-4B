@@ -80,8 +80,20 @@
           }).then(function(){
             console.log(tableData);
             /* Query for Top Events */
+            var eventDict = {};
+            
             MP.api.events.apply(MP.api, events, params).done(function(results) {
-              console.log('got results', results.values());
+              _.each(_.keys(results.values()), function(key){
+                  eventDict[key] = _.reduce(_.values(results.value()[key]), function(memo, num){ return memo + num; }, 0)
+              });
+              /* Now Modify TableData using the sums in EventDict */
+              _.each(_.keys(eventDict), function(eventKey){
+                  if (eventKey in tableData){
+                    var value = tableData[eventKey];
+                    delete tableData[eventKey];
+                    tableData[eventKey + ' (' + eventDict[eventKey] + ') '] = value;
+                  }     
+              })
             });
             
               $('<div class="Spec-Table"></div>').appendTo('body').MPTable(
