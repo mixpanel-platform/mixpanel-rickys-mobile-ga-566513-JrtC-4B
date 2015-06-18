@@ -92,7 +92,8 @@
       $(document).ready(function() {
         runQuery();
         var dateSelector = $('<div></div></br>').appendTo('body').MPDatepicker();   
-        dateSelector.on('change', function(e, dates) {       
+        dateSelector.on('change', function(e, dates) {      
+          $(".Spec-Table").remove()
           runQuery(dates.to, dates.from)
         });
       });
