@@ -9,11 +9,12 @@
   <body class="mixpanel-platform-body">
     
     <script>
+      var params = {
+          limit: 50         // maximum number of results to return
+      };
       // Run queries and display results here
       function runQuery(to_date, from_date){
-        var params = {
-          limit: 50         // maximum number of results to return
-        };
+        
         
         if (from_date && to_date){
           params.to = to_date
@@ -32,12 +33,10 @@
   
           _.each(_.values(results.values()), function(value){
             console.log(value)
-            var propQueryParams = {
-              limit: 100    // maximum number of results to return
-            };
+            
             
             /* Make topProperties query with each event */
-            var propQuery = MP.api.topProperties(value, propQueryParams);
+            var propQuery = MP.api.topProperties(value, params);
             
             promises.push(propQuery);
             events.push(value);
