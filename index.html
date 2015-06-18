@@ -10,77 +10,92 @@
     
     <script>
       // Run queries and display results here
-      var params = {
-        type: 'general',  // analysis type for the data, can be 'general', 'unique', or 'average'
-        limit: 50         // maximum number of results to return
-      };
-      
-      var tableData = {};
-      var eventsQuery = MP.api.topEvents(params)
-      
-      
-      var promises = [];
-      var events = [];
-      var properties = {};
-      
-      eventsQuery.done(function(results){
-
-        _.each(_.values(results.values()), function(value){
-          console.log(value)
-          var propQueryParams = {
-            limit: 100    // maximum number of results to return
-          };
-          
-          /* Make topProperties query with each event */
-          var propQuery = MP.api.topProperties(value, propQueryParams);
-          promises.push(propQuery);
-          events.push(value);
-            
-        });
+      function runQuery(to_date, from_date){
+        var params = {
+          limit: 50         // maximum number of results to return
+        };
         
-        /* When all of the topEvents are done, let's make a properties query for each Event */
-      
-        Promise.all(promises).then(function(promiseArray){
-          _.each(promiseArray, function(propsObject){
-              console.log(propsObject.values())
-              _.each(_.keys(propsObject.values()), function(propValue){
-                if (propValue in properties){
-                  console.log('in')
+        if (from_date && to_date){
+          params.to = to_date
+          params.from = from_date
+        }
+        
+        var tableData = {};
+        var eventsQuery = MP.api.topEvents(params)
+        
+        
+        var promises = [];
+        var events = [];
+        var properties = {};
+        
+        eventsQuery.done(function(results){
+  
+          _.each(_.values(results.values()), function(value){
+            console.log(value)
+            var propQueryParams = {
+              limit: 100    // maximum number of results to return
+            };
+            
+            /* Make topProperties query with each event */
+            var propQuery = MP.api.topProperties(value, propQueryParams);
+            
+            promises.push(propQuery);
+            events.push(value);
+              
+          });
+          
+          /* When all of the topEvents are done, let's make a properties query for each Event */
+        
+          Promise.all(promises).then(function(promiseArray){
+            _.each(promiseArray, function(propsObject){
+                console.log(propsObject.values())
+                _.each(_.keys(propsObject.values()), function(propValue){
+                  if (propValue in properties){
+                    console.log('in')
+                  } else {
+                    properties[propValue] = ''
+                  }
+                })
+                
+                /* find index of propsObject */
+                
+                var index = promiseArray.indexOf(propsObject);
+                
+                /* Add value to dictionary */
+                
+                tableData[events[index]] = promiseArray[index].values();
+            })
+          }).then(function(){
+            console.log(properties);
+            _.each(_.values(tableData), function(dataObject){
+              var keys = _.keys(properties)
+              for (i = 0; i < keys.length; i++){
+                if (keys[i] in dataObject){
+                  // do nothing
                 } else {
-                  properties[propValue] = ''
+                  dataObject[keys[i]] = 0
                 }
-              })
-              
-              /* find index of propsObject */
-              
-              var index = promiseArray.indexOf(propsObject);
-              
-              /* Add value to dictionary */
-              
-              tableData[events[index]] = promiseArray[index].values();
-          })
-        }).then(function(){
-          console.log(properties);
-          _.each(_.values(tableData), function(dataObject){
-            var keys = _.keys(properties)
-            for (i = 0; i < keys.length; i++){
-              if (keys[i] in dataObject){
-                // do nothing
-              } else {
-                dataObject[keys[i]] = 0
               }
-            }
-          })
-        }).then(function(){
-          console.log(tableData);
-            $('<div class="Spec-Table"></div>').appendTo('body').MPTable(
-              {
-                data: tableData,
-                firstColHeader: 'Event'
-              }
-            );
+            })
+          }).then(function(){
+            console.log(tableData);
+              $('<div class="Spec-Table"></div>').appendTo('body').MPTable(
+                {
+                  data: tableData,
+                  firstColHeader: 'Event'
+                }
+              );
+          });
+        })
+      }
+      /* Add DatePicker */
+      $(document).ready(function() {
+        runQuery();
+        var dateSelector = $('<div></div></br>').appendTo('body').MPDatepicker();   
+        dateSelector.on('change', function(e, dates) {       
+          runQuery(dates.to, dates.from)
         });
-      })
+      });
       
       
     </script>
