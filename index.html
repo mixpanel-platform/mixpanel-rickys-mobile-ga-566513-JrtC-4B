@@ -91,13 +91,13 @@
                   if (eventKey in tableData){
                     var value = tableData[eventKey];
                     delete tableData[eventKey];
-                    tableData[eventKey + ' (' + eventDict[eventKey] + ') '] = value;
+                    tableData[eventKey + ' - ' + eventDict[eventKey] + ' '] = value;
                   }     
               })
               $('<div class="Spec-Table"></div>').appendTo('body').MPTable(
                 {
                   data: tableData,
-                  firstColHeader: 'Event & (Count) '
+                  firstColHeader: 'Event - Count'
                 }
               );
             });
