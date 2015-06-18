@@ -94,14 +94,15 @@
                     tableData[eventKey + ' (' + eventDict[eventKey] + ') '] = value;
                   }     
               })
-            });
-            
               $('<div class="Spec-Table"></div>').appendTo('body').MPTable(
                 {
                   data: tableData,
                   firstColHeader: 'Event'
                 }
               );
+            });
+            
+              
           });
         })
       }
